@@ -1,0 +1,25 @@
+{
+    "channelId": "",
+    "response": {
+        "location": "request",
+        "mimeType": "application/json"
+    },
+    "request": {
+        "name": "",
+        "pipeline": [
+            {
+                "source": {
+                    "pages":  {"blacklist": "ignore"}
+                }
+            },
+            {
+                "select": {
+                    "id": "id",
+                    "name": "name",
+                   "Group": "group.name"
+                }
+            }
+        ],
+        "requestId": ""
+    }
+}

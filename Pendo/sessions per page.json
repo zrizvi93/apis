@@ -1,0 +1,68 @@
+{"request": {
+        "name": "Sessions Per Page", 
+        "pipeline": [
+          
+      { 
+          "source": { "pageEvents": null,
+        "timeSeries": {
+        "period": "dayRange",
+        "first": "now()-2678400000",
+        "count": 30
+        }} 
+      }, 
+      {  
+        "filter" : "!contains(visitorId,`_PENDO_T_`)"
+      },
+      { 
+        "group": {
+          "group": [
+            "pageId", 
+            "day",
+            "hour",
+            "visitorId",
+            "accountId",
+            "server", 
+            "remoteIp",
+            "userAgent"
+          ],
+          "fields": [
+            {
+              "sessions": {
+                "count": "event"
+              }
+            }
+          ]
+        }
+      }, 
+    { 
+        "group": {
+          "group": [
+            "pageId",
+            "accountId",
+            "day"
+          ],
+          "fields": [
+            {
+              "sessionCount": {
+                "sum": "sessions"
+              }
+            }
+          ]
+        }
+    },
+        {"expand": {
+          "pageMeta": {
+            "page": "pageId"
+          }}},
+        {"select": {
+          "page": "pageId",
+          "account":  "accountId",
+          "day": "day",
+          "sessionCount":"sessionCount",
+          "name": "pageMeta.name",
+          "Group": "pageMeta.group.name"
+        }}
+    
+        ]
+    }
+}

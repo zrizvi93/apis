@@ -1,0 +1,59 @@
+{
+  "response": {
+    "location": "request",
+    "mimeType": "application/json"
+  },
+  "request": {
+    "requestId": "Accounts",
+    "timeSeries": {
+      "period": "dayRange",
+      "first": "now()-2592000000",
+      "last": "now()-86400000"
+    },
+    "source": {
+      "events": null
+    },
+    "pipeline": [
+      {
+        "identified": "visitorId"
+      },
+      {
+        "group": {
+          "group": [
+            "accountId",
+            "visitorId"
+          ],
+          "fields": [
+            {"dayCount": {
+                "count": "day"
+              }
+            },
+            {"sumMinutes": {
+                "sum": "numMinutes"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "select": {
+          "account": "accountId",
+          "visitorId": "visitorId",
+          "sumMinutes": "sumMinutes",
+          "dayCount": "dayCount"
+        }
+      },
+      {
+        "filter" : "!contains(account,`train.`) && !contains(account,`test.`)" 
+      },
+      {
+        "select": {
+          "account": "account",
+          "visitor": "visitorId",
+          "sumMinutes": "sumMinutes",
+          "dayCount": "dayCount"
+        }
+      }
+    ]
+  }
+}

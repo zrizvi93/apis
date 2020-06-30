@@ -1,0 +1,63 @@
+\\ Distinct MAU where > 1 minute 
+
+{
+  "response": {
+    "location": "request",
+    "mimeType": "application/json"
+  },
+  "request": {
+    "requestId": "Accounts",
+    "timeSeries": {
+        "period": "dayRange",
+        "first": "{props.MAU_month_start}",
+        "count": 28
+    },
+    "source": {
+      "events": null
+    },
+    "pipeline": [
+      {
+        "identified": "visitorId"
+      },
+      {
+        "bulkExpand": {
+        "visitorMeta": {
+          "visitor": "visitorId"
+        }}},
+      {
+        "select": {
+      "account": "accountId",
+      "visitorId": "visitorId",
+      "email": "visitorMeta.agent.email",
+      "numMinutes": "numMinutes",
+      "day": "day"
+        }},
+        { 
+          "filter" : "!contains(visitor, `_PENDO_T_`) && !contains(email, `@atlassian.com`) && !contains(email, `@agilecraft.com`) && contains(email, `@`)" 
+        },
+      {
+        "group": {
+          "group": [
+            "account",
+            "email"
+          ],
+          "fields": [
+            {"dayCount": {
+                "count": "day"
+              }
+            },
+            {"sumMinutes": {
+                "sum": "numMinutes"
+              }
+            }
+          ]
+        }
+      },
+      { "filter" : "sumMinutes > 1" 
+      },
+      {
+        "count": null
+      }
+    ]
+  }
+}

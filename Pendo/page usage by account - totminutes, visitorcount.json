@@ -1,0 +1,85 @@
+{"request": {
+        "name": " Page Usage by Account",
+        "timeSeries": {
+          "period": "dayRange",
+          "first": "now()-2592000000",
+          "last": "now()-86400000"
+        },
+        "source": {
+          "pageEvents": null
+        },
+        "pipeline": [{
+            "group": {
+                "group": [
+                  "accountId",
+                  "pageId"
+                ],
+                "fields": [{
+                    "time": {
+                        "sum": "numMinutes"
+                    }
+                },
+                {
+                  "visitorCount": {
+                    "count": "visitorId"
+              }
+            }
+                ]
+            }
+        }]
+    }
+}
+
+
+
+
+// expanded to include page name and group 
+
+
+
+{"request": {
+        "name": " Page Usage by Account",
+        "timeSeries": {
+          "period": "dayRange",
+          "first": "now()-2592000000",
+          "last": "now()-86400000"
+        },
+        "source": {
+          "pageEvents": null
+        },
+        "pipeline": [
+        {"filter": "!contains(visitorId,`_PENDO_T_`) && accountId==`bimodalinternal.341db9973bbf67d2d8db78b5a98582a7`"  
+        },
+        {"group": {
+                "group": [
+                  "accountId",
+                  "pageId"
+                ],
+                "fields": [{
+                    "time": {
+                        "sum": "numMinutes"
+                    }
+                },
+                {
+                  "visitorCount": {
+                    "count": "visitorId"
+              }
+            }
+                ]
+            }
+        },
+        {"expand": {
+          "pageMeta": {
+            "page": "pageId"
+          }}},
+        {"select": {
+          "account": "accountId",
+          "page": "pageId",
+          "time":"time",
+          "visitorCount":"visitorCount",
+          "name": "pageMeta.name",
+          "Group": "pageMeta.group.name"
+        }}
+        ]
+    }
+}

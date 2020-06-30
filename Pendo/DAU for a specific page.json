@@ -1,0 +1,65 @@
+// Step 1 - Specify source & time range
+// Step 2 -  Filter out anonymous visitors 
+// Step 3 - Count days, grouped by Account ID, Visitor ID
+// Step 4 - Filter for Daily Visitors--Defined as atleast 13 active days. Can make this part of query dynamic.
+// Step 5 - Grouping by AccountID, Count Vistors
+
+
+{"request": {
+        "name": "Visitor Trend For Program Room", 
+        "pipeline": [
+          
+      { 
+          "source": { 
+                "pageEvents": {
+                  "pageId": "xtQ33VZ054OjoW1Nrl8lPoK-UVI"
+              },
+        "timeSeries": {
+        "period": "dayRange",
+        "first": "now()-2678400000",
+        "count": 30
+        }} 
+      }, 
+      
+      {  
+        "filter" : "!contains(visitorId,`_PENDO_T_`)"
+      },
+      
+      { 
+        "group": {
+          "group": [
+            "accountId",
+            "visitorId"
+          ],
+          "fields": [
+            {
+              "dayCount": {
+                "count": "day"
+              }
+            }
+          ]
+        }
+      }, 
+      
+    { 
+      "filter" : "dayCount > 12" 
+    }, 
+    
+    { 
+        "group": {
+          "group": [
+            "accountId"
+          ],
+          "fields": [
+            {
+              "VisitorCount": {
+                "count": "visitorId"
+              }
+            }
+          ]
+        }
+    }
+    
+        ]
+    }
+}

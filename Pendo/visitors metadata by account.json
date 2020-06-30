@@ -1,0 +1,30 @@
+{
+  "request": {
+    "name": "EmailList",
+    "pipeline": [
+      {
+        "source": {
+          "pageEvents": {"blacklist": "ignore"
+          },
+          "timeSeries": {
+            "period": "dayRange",
+            "first": "1562130000000",
+            "count": 2
+          }
+        }
+      },
+      {
+        "filter": "!contains(visitorId,`_PENDO_T_`)"
+      },
+      {"bulkExpand": {
+        "visitorMeta": {
+          "visitor": "visitorId"
+        }}},
+{"select": {
+          "account": "accountId",
+          "visitor": "visitorId",
+          "email": "visitorMeta.agent.email"
+        }}
+    ]
+  }
+}

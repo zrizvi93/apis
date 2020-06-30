@@ -1,0 +1,51 @@
+
+Zendesk Organizations 
+zendesk.com/api/v2/organizations.json
+
+Zendesk View 
+zendesk.com/api/v2/views/360039144973/execute.json
+
+Zendesk Users (paginated)
+zendesk.com/api/v2/organizations/3310965937/users.json?page=1
+
+Zendesk Ticket Metrics 
+zendesk.com/api/v2/ticket_metrics.json?page=1
+
+Zendesk Ticket Custom Fields
+zendesk.com/api/v2/ticket_fields.json
+
+Zendesk New Last Week 
+zendesk.com/api/v2/search.json?page=1&query=type:ticket+created>=7days&sort_by=created_at&sort_order=asc
+
+Zendesk Solved Between Timeframe 
+zendesk.com/api/v2/search.json?query=type:ticket+status:solved+solved>={props.ZD_Tickets_Min_Date}+solved<={props.ZD_Tickets_Max_Date}&sort_by=updated_at&sort_order=asc
+
+High Priority Zendesk Tickets in the past 6 Months 
+zendesk.com/api/v2/search.json?query=type:ticket+priority:high+created_at>=6months&sort_by=created_at&sort_order=asc
+
+ZenDesk Tickets (Last 11 Months) 
+zendesk.com/api/v2/search.json?query=type:ticket{props.zdDateCondition}&per_page=1
+
+Zendesk Daily Tickets (This Month) 
+zendesk.com/api/v2/search.json?per_page=1&query=type:ticket+created_at>={date.start().tz('GMT+00:00').startOfMonth.format()}+created_at<={date.end().tz('GMT+00:00').format()}
+
+Zendesk Open Tickets Today 
+zendesk.com/api/v2/search.json?query=type:ticket+created:{date.tz("GMT-06:00").today}+status:open&per_page=1
+
+Zendesk Closed Tickets Today 
+zendesk.com/api/v2/search.json?query=type:ticket+created:{date.tz("GMT-06:00").today}+status:closed&per_page=1
+
+Zendesk Pending Tickets Today 
+zendesk.com/api/v2/search.json?query=type:ticket+created:{date.tz("GMT-06:00").today}+status:pending&per_page=1
+
+Zendesk New Tickets Today 
+zendesk.com/api/v2/search.json?query=type:ticket+created:{date.tz("GMT-06:00").today}+status:new&per_page=1
+
+
+Zendesk page number list (for pagination)
+WITH x AS (SELECT n FROM (VALUES (0),(1),(2),(3),(4),(5),(6),(7),(8),(9)) v(n))
+SELECT ones.n + 10*tens.n + 100*hundreds.n + 1000*thousands.n
+FROM x ones,     x tens,      x hundreds,       x thousands
+WHERE ones.n + 10*tens.n + 100*hundreds.n + 1000*thousands.n BETWEEN 0 AND ({props.Available_PageCount_Pagination}+1)
+ORDER BY 1 desc
+

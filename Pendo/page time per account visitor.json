@@ -1,0 +1,31 @@
+
+{"request": {
+        "name": "Page Time Per Account Visitor",
+        "timeSeries": {
+          "period": "dayRange",
+          "first": "now()-2592000000",
+          "last": "now()-86400000"
+        },
+        "source": {
+          "pageEvents": null
+        },
+        "pipeline": [
+          {
+ 
+                      "group": {
+                          "group": [
+                              "visitorId"
+                              ,"accountId"
+                              , "pageId"
+                          ],
+                          "fields": [{
+                              "time": {
+                                  "sum": "numMinutes"
+                              }
+                          }]
+                      }
+                  }
+    
+        ]
+    }
+}

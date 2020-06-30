@@ -1,0 +1,19 @@
+
+
+Hubspot Monthly Website Traffic/ Leads by Source (12 Months)
+hubapi.com/analytics/v2/reports/sources/monthly?start={date.addMonths(-12).startOfMonth.format('yyyyMMdd')}&end={date.today.format('yyyyMMdd')}
+
+Hubspot Daily Summary (12 Months)
+hubapi.com/analytics/v2/sources/summary/daily/?start={date.addMonths(-12).startOfMonth.format('yyyyMMdd')}&end={date.today.format('yyyyMMdd')}
+
+Hubspot Contact List + MQL date + state/region (from list ID) 
+hubapi.com/contacts/v1/lists/927/contacts/all?&count=300&property=state&property=ip_country&property=ip_state&property=hs_lifecyclestage_marketingqualifiedlead_date
+
+Hubspot MQL Monthly Totals
+hubapi.com/analytics/v2/reports/totals/summarize/monthly/?start=20180101&end={date.today.format('yyyyMMdd')}
+
+Current Quarter Lifecycle Counts 
+hubapi.com/contacts/search/v1/external/lifecyclestages?fromTimestamp={props.QuarterStart_Unix}&toTimestamp={props.Now_UTC_Unix}
+
+Hubspot Counts by Traffic Source
+hubapi.com/contacts/search/v1/external/lifecyclestages?fromTimestamp={props.Today_UTC_Unix}&toTimestamp={props.Now_UTC_Unix}&aggregationProperty=hs_analytics_source

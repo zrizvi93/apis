@@ -1,0 +1,82 @@
+
+// List of all Unique Pendo account IDs (affected by Blacklist)
+
+{
+  "response": {
+    "location": "request",
+    "mimeType": "application/json"
+  },
+  "request": {
+    "requestId": "Accounts",
+    "source": {
+      "accounts": null
+    },
+    "pipeline": [
+        {
+          "identified": "accountId"
+        },
+      {
+        "select": {
+          "account": "accountId"
+        }
+      }
+    ]
+  }
+}
+
+
+
+// List of all Account IDs in Pendo - Irrespective of Blacklist
+
+{
+  "response": {
+    "location": "request",
+    "mimeType": "application/json"
+  },
+  "request": {
+    "requestId": "Accounts",
+    "source": {
+      "accounts": {
+            "blacklist": "ignore"
+        }
+    },
+    "pipeline": [
+        {
+          "identified": "accountId"
+        },
+      {
+        "select": {
+          "account": "accountId"
+        }
+      }
+    ]
+  }
+}
+
+
+// List of All Blacklisted Pendo Account IDs - Only Blacklist
+
+{
+  "response": {
+    "location": "request",
+    "mimeType": "application/json"
+  },
+  "request": {
+    "requestId": "Accounts",
+    "source": {
+      "accounts": {
+            "blacklist": "only"
+        }
+    },
+    "pipeline": [
+        {
+          "identified": "accountId"
+        },
+      {
+        "select": {
+          "account": "accountId"
+        }
+      }
+    ]
+  }
+}
